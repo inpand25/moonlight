@@ -1,0 +1,54 @@
+{% extends 'shop/layouts/main.html' %}
+
+{% block title %}
+  Registration | ShopKart
+{% endblock title %}
+
+{% block content %}
+  <section class="bg-light " style="min-height: 900px; ">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="mb-3 mt-2">Favourite Item</h4>
+          <hr style="border-color:#b8bfc2;">
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered text-center align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Unit Price</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in fav %}
+                <tr>
+                  <td>
+                    <img src="{{ item.product.product_image.url }}" height="75px" alt="{{ item.product.name }}">
+                  </td>
+                  <td>{{ item.product.name }}</td>
+                  <td>₹{{ item.product.selling_price|stringformat:'d' }}</td>
+                  <td>
+                    <a href="{% url 'remove_fav' item.id %}"
+                       onclick="return confirm('Are you sure you want to remove this item?')"
+                       class="btn btn-danger btn-sm">
+                      <i class="fa fa-trash"></i> Remove
+                    </a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="4">No favourite items found.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </section>
+{% endblock content %}

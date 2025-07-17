@@ -1,0 +1,215 @@
+{% load static %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ✅ CSS -->
+<style>
+  .navbar-brand img {
+    height: 120px;
+  }
+
+  .top-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1040;
+    background-color: #212529;
+  }
+
+  .main-navbar {
+    margin-top: 50px;
+    position: sticky;
+    top: 50px;
+    z-index: 1030;
+    background-color: white;
+    height: 100px;
+  }
+
+  @media (max-width: 1000px) {
+    .auth-icon-text {
+      display: none;
+    }
+
+    .auth-links .nav-link i {
+      font-size: 20px;
+    }
+
+    .auth-links {
+      flex-direction: row !important;
+      gap: 10px;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    #mainNav {
+      background-color: white;
+      
+      border-radius: 10px;
+    }
+
+    #mainNav .nav-link {
+      color: #212529 !important;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    .navbar-toggler {
+      border: none;
+    }
+  }
+
+  @media (max-width: 628px) {
+    .contact-text {
+      display: none;
+    }
+
+    .top-header .text-white i {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .navbar-brand img {
+      height: 80px;
+    }
+
+    .navbar-nav.flex-row {
+      flex-direction: column !important;
+      align-items: center !important;
+    }
+
+    .navbar-nav.flex-row .nav-item {
+      margin: 5px 0 !important;
+    }
+
+    .navbar-nav.ms-auto {
+      justify-content: center;
+    }
+
+    .navbar .nav-link {
+      font-size: 16px;
+      text-align: center;
+    }
+  }
+
+  /* ✅ Cross button style */
+  #closeNavBtn {
+    font-size: 26px;
+    border: none;
+    background: none;
+    color: #000;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 1050;
+    display: none;
+  }
+
+  @media (max-width: 992px) {
+    #closeNavBtn {
+      display: block;
+    }
+  }
+</style>
+
+<!-- ✅ Top Header -->
+<nav class="navbar navbar-dark top-header" style="font-family: 'Poppins', sans-serif;">
+  <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap px-4 pt-2">
+    <div class="text-white pb-2">
+      <i class="fa fa-envelope"></i>
+      <span class="contact-text">moonlightenterprises298@gmail.com</span> &nbsp;
+      <i class="fa fa-phone"></i>
+      <span class="contact-text">+91 9965644888</span>
+    </div>
+
+    <div class="d-flex auth-links pb-2">
+      {% if request.user.is_authenticated %}
+        <a class="nav-link text-white me-3" href="#">
+          <i class="fa fa-user"></i> <span class="auth-icon-text">{{ request.user }}</span>
+        </a>
+        <a class="nav-link text-white" href="{% url 'logout' %}">
+          <i class="fa fa-sign-out"></i> <span class="auth-icon-text">Logout</span>
+        </a>
+      {% else %}
+        <a class="nav-link text-white me-3" href="{% url 'login' %}">
+          <i class="fa fa-sign-in"></i> <span class="auth-icon-text">Login</span>
+        </a>
+        <a class="nav-link text-white" href="{% url 'register' %}">
+          <i class="fa fa-users"></i> <span class="auth-icon-text">Register</span>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<!-- ✅ Main Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white main-navbar">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold text-dark" href="{% url 'home' %}">
+      <img src="{% static 'images/logo1.png' %}" alt="Logo">
+    </a>
+
+    <!-- Toggle button -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+      aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation" id="navToggleBtn">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Nav Links -->
+    <div class="collapse navbar-collapse position-relative" id="mainNav">
+      <!-- ❌ Close button inside nav -->
+      <button type="button" class="btn" id="closeNavBtn">&times;</button>
+
+      <!-- Links -->
+      <ul class="navbar-nav mx-auto flex-row flex-lg-row">
+        <li class="nav-item mx-3">
+          <a class="nav-link text-dark fs-5" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item mx-3">
+          <a class="nav-link text-dark fs-5" href="#">About</a>
+        </li>
+        <li class="nav-item mx-3">
+          <a class="nav-link text-dark fs-5" href="{% url 'collections' %}">Collections</a>
+        </li>
+        <li class="nav-item mx-3">
+          <a class="nav-link text-dark fs-5" href="#">Contact</a>
+        </li>
+      </ul>
+
+      <!-- Cart & Favourite -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item me-3">
+          <a class="nav-link text-dark fs-5" href="{% url 'cart' %}">
+            <i class="fa fa-shopping-cart text-primary"></i> Cart
+            <sup><span class="badge text-secondary fs-6">{{ cart_count }}</span></sup>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-5" href="{% url 'favviewpage' %} ">
+            <i class="fa fa-heart text-danger"></i> Favourite
+            <sup><span class="badge text-secondary fs-6">{{ fav_count }}</span></sup>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ✅ Script to close navbar on cross click -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const closeBtn = document.getElementById("closeNavBtn");
+    const navCollapse = document.getElementById("mainNav");
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function () {
+        const collapseInstance = bootstrap.Collapse.getInstance(navCollapse);
+        if (collapseInstance) {
+          collapseInstance.hide();
+        } else {
+          new bootstrap.Collapse(navCollapse).hide();
+        }
+      });
+    }
+  });
+</script>

@@ -1,0 +1,62 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}Checkout | ShopKart{% endblock title %}
+{% block content %}
+<section class="py-4 my-4" style="min-height: 600px;">
+  <div class="container" >
+   
+    <div class="col-12">
+        <h4 class="mb-3">  {{products}} Details</h4>
+        <hr style="border-color:#b8bfc2;">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'cart' %}">Cart</a></li>
+            <li class="breadcrumb-item " aria-current="page">Checkout</li>
+          </ol>
+        </nav>
+      </div>
+      {% if cart_items %}
+    <form method="POST" action="{% url 'placeorder' %}">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6">
+          <h4>Billing Details</h4>
+          <hr>
+          <div class="mb-3"><input type="text" name="fname" class="form-control" placeholder="First Name" required></div>
+          <div class="mb-3"><input type="text" name="lname" class="form-control" placeholder="Last Name" required></div>
+          <div class="mb-3"><input type="email" name="email" class="form-control" placeholder="Email" required></div>
+          <div class="mb-3"><input type="text" name="phone" class="form-control" placeholder="Phone" required></div>
+          <div class="mb-3"><textarea name="address" rows="3" class="form-control" placeholder="Address" required></textarea></div>
+          <div class="mb-3">
+            <label>Payment Mode</label><br>
+            <input type="radio" name="payment_mode" value="COD" checked> Cash on Delivery<br>
+            <input type="radio" name="payment_mode" value="Online" disabled> Online Payment (Coming Soon)
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h4>Order Summary</h4>
+          <hr>
+          <table class="table table-bordered">
+            <thead><tr><th>Product</th><th>Qty</th><th>Price</th></tr></thead>
+            <tbody>
+              {% for item in cart_items %}
+              <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product_qty }}</td>
+                <td>Rs.{{ item.product.selling_price|floatformat:2 }}</td>
+              </tr>
+              {% endfor %}
+              <tr><td colspan="2"><strong>Total</strong></td><td><strong >Rs.{{ total_price |floatformat:2}}</strong></td></tr>
+            </tbody>
+          </table>
+          <button type="submit" class="btn btn-primary w-100">Place Order</button>
+        </div>
+      </div>
+    </form>
+     {% else %}
+      <div class="alert alert-warning">Your cart is empty. <a href="/collections">Continue shopping</a></div>
+    {% endif %}
+  </div>
+</section>
+{% endblock content %}
+
