@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-k&pdzol)=h(5@mjzuqbv4hxjnhtur9g_x2a)@c$k#a6c6cl7vx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -76,17 +76,28 @@ WSGI_APPLICATION = 'moonlightenterprises_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'django_moonlight',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_moonlight',
+        'NAME': 'railway',
         'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'PASSWORD': 'eqiLlgMcGNNcczMFKGRABKOsmKFYFeaX',
+        'HOST': 'mainline.proxy.rlwy.net',
+        'PORT': '18553',
     }
 }
-
+# mysql://root:eqiLlgMcGNNcczMFKGRABKOsmKFYFeaX@mainline.proxy.rlwy.net:18553/railway
 
 # EMAIL SETUP (For sending order confirmation)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
